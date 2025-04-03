@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 import os
 from pathlib import Path
-
+from .extra_conf import *
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -29,6 +29,7 @@ DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
 ALLOWED_HOSTS = []
 
+AUTH_USER_MODEL = 'users.UserModel'
 
 # Application definition
 
@@ -39,6 +40,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'rest_framework_simplejwt.token_blacklist',
+    #my apps
+    'core',
+    'apps.users',
+    'apps.authentication',
 ]
 
 MIDDLEWARE = [
@@ -53,10 +60,12 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'configs.urls'
 
+CORS_ORIGIN_ALLOW_ALL = True
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'core/templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
