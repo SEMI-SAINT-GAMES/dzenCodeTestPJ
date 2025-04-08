@@ -59,12 +59,6 @@ class CommentCreateSerializer(serializers.ModelSerializer):
         replies = obj.replies.filter(is_active=True)
         return CommentCreateSerializer(replies, many=True).data
 
-    def validate_parent(self, data):
-        if data.parent and data.post:
-            if data['parent'].post != data['post']:
-                raise serializers.ValidationError("Parent comment does not belong to this post")
-        return data
-
     def validate_text(self, value):
         clean_text = clean_html(value)
         if not clean_text:
