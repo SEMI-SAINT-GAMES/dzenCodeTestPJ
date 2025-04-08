@@ -1,13 +1,11 @@
 import os
 from io import BytesIO
-
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 from apps.posts.models import PostsModel, CommentsModel
 from core.helpers.clean_html import clean_html
 from PIL import Image
-
 
 class PostCreateSerializer(serializers.ModelSerializer):
 

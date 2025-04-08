@@ -16,7 +16,7 @@ const useWebSocketComment = (setPosts: React.Dispatch<React.SetStateAction<IPost
                     const updatedPost = {
                         ...prevPosts[postIndex],
                         comments: [
-                            ...prevPosts[postIndex].comments.filter(
+                            ...(prevPosts[postIndex].comments ?? []).filter(
                                 (existingComment: IComment) => !newComment.data.comments.some(
                                     (newCmt: IComment) => newCmt.id === existingComment.id
                                 )
