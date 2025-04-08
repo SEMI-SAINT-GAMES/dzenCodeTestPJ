@@ -7,7 +7,7 @@ html, body {
 }
 .Main-layout {
   display: flex;
-  align-items: center;
+  //align-items: center;
   flex-direction: column;
   min-height: 100vh;
   position: relative;
@@ -17,7 +17,7 @@ html, body {
   width: 100vw;
 
   .Content-container {
-      padding-top: 140px;
+      padding-top: 60px;
       padding-bottom: 650px;
     }
   }

@@ -17,9 +17,10 @@ from core.pagination import PagePagination
 class CreatePostAPIView(GenericAPIView):
     permission_classes = (AllowAny,)
     parser_classes = [MultiPartParser, FormParser, JSONParser]
+    serializer_class = PostCreateSerializer
     def post(self, request):
         print(request.data)
-        serializer = PostCreateSerializer(data=request.data)
+        serializer = self.get_serializer(data=request.data)
         if serializer.is_valid():
             if self.request.user.is_authenticated:
                 serializer.validated_data['user'] = self.request.user

@@ -8,7 +8,8 @@ from core.helpers.clean_html import clean_html
 from PIL import Image
 
 class PostCreateSerializer(serializers.ModelSerializer):
-
+    image = serializers.ImageField(required=False)
+    text_file = serializers.FileField(required=False)
     class Meta:
         model = PostsModel
         fields = ['id', 'text', 'username', 'email', 'user', 'created_at', 'image', 'text_file']

@@ -4,6 +4,9 @@ export interface IPost{
     username:string
     email:string
     comments?:IComment[]
+    image?: File | string;
+    text_file?: File | string;
+    created_at: string;
 }
 export interface IComment{
     id?:number
@@ -11,4 +14,7 @@ export interface IComment{
     username:string
     email:string
     replies?: IComment[]
+    image?: File | string;
+    text_file?: File | string;
+    created_at: string;
 }

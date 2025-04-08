@@ -1,16 +1,144 @@
-.Posts{
-  width: 80vw;
+.Posts {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 0 20px;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  .Post-container{
-    width: 90%;
-    height: auto;
-    padding: 10px;
-    margin-bottom: 10px;
-    border: 1px solid black;
-    .Post{
+  gap: 30px;
+  font-family: 'Segoe UI', sans-serif;
+}
 
+.Post-container {
+  background-color: #fefefe;
+  border: 1px solid #ddd;
+  border-radius: 14px;
+  padding: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.Post {
+  padding: 16px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  font-family: "Inter", sans-serif;
+  max-width: 700px;
+  margin: 0 auto;
+  margin-bottom: 24px;
+
+  .Post-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+    color: #777;
+
+    h4 {
+      font-size: 20px;
+      font-weight: 600;
+      color: #333;
+      margin: 0;
+    }
+
+    .Post-info {
+      margin-left: 10px;
+      font-size: 12px;
+      color: #aaa;
+    }
+  }
+
+  .Post-content {
+    display: flex;
+    align-items: center;
+    margin-top: 16px;
+
+    .Post-image {
+      margin-right: 16px;
+
+      img {
+        width: 320px;
+        height: 240px;
+        object-fit: cover;
+        border-radius: 8px;
+      }
+    }
+
+    .Post-text {
+      flex: 1;
+      height: 230px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      p {
+        font-size: 16px;
+        color: #444;
+        margin: 0;
+        line-height: 1.5;
+      }
+
+      .Post-file {
+        margin-top: 16px;
+
+        a.Download-button {
+          display: inline-flex;
+          align-items: center;
+          font-size: 14px;
+          color: #fff;
+          background-color: #007bff;
+          padding: 8px 16px;
+          border-radius: 4px;
+          text-decoration: none;
+          font-weight: 500;
+
+          &:hover {
+            background-color: #0056b3;
+          }
+
+          .Download-icon {
+            width: 20px;
+            height: 20px;
+            margin-right: 8px;
+          }
+        }
+      }
     }
   }
 }
+
+
+
+//.Comments {
+//  margin-top: 20px;
+//  padding-left: 20px;
+//  border-left: 2px solid #ddd;
+//  display: flex;
+//  flex-direction: column;
+//  gap: 12px;
+//}
+//
+//.Comment-container {
+//  margin: 0;
+//}
+//
+//.Comment {
+//  background-color: #f2f6fc;
+//  border: 1px solid #c3dafe;
+//  padding: 10px 14px;
+//  padding-right: 0;
+//  border-radius: 10px;
+//  font-size: 14px;
+//  color: #2c3e50;
+//  position: relative;
+//
+//  &::before {
+//    content: "💬";
+//    position: absolute;
+//    left: -22px;
+//    top: 8px;
+//    font-size: 14px;
+//  }
+//
+//  .Comment-container {
+//    margin: 16px 0;
+//  }
+//}
