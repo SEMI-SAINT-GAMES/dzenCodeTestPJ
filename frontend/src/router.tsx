@@ -1,6 +1,7 @@
 import {createBrowserRouter, Navigate} from "react-router-dom";
 import MainLayout from "./layouts/MainLayout.tsx";
 import MainPage from "./pages/mainPage/MainPage.tsx";
+import PostFormPage from "./pages/formPages/PostFormPage.tsx";
 
 const router = createBrowserRouter([
     {
@@ -14,6 +15,10 @@ const router = createBrowserRouter([
             {
                 path: 'main',
                 element: <MainPage/>
+            },
+            {
+                path: 'create_post',
+                element: <PostFormPage/>
             }
         ]
     }

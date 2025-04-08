@@ -3,7 +3,7 @@ import json
 from channels.layers import get_channel_layer
 from rest_framework import status
 from rest_framework.generics import GenericAPIView, ListAPIView, RetrieveAPIView
-from rest_framework.parsers import MultiPartParser, FormParser
+from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 
@@ -16,8 +16,9 @@ from core.pagination import PagePagination
 # Create your views here.
 class CreatePostAPIView(GenericAPIView):
     permission_classes = (AllowAny,)
-    parser_classes = [MultiPartParser, FormParser]
+    parser_classes = [MultiPartParser, FormParser, JSONParser]
     def post(self, request):
+        print(request.data)
         serializer = PostCreateSerializer(data=request.data)
         if serializer.is_valid():
             if self.request.user.is_authenticated:

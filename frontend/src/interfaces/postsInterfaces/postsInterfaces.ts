@@ -1,14 +1,14 @@
 export interface IPost{
-    id:number
+    id?:number
     text:string
     username:string
     email:string
-    comments:IComment[]
+    comments?:IComment[]
 }
 export interface IComment{
-    id:number
+    id?:number
     text:string
     username:string
     email:string
-    replies: IComment[]
+    replies?: IComment[]
 }
