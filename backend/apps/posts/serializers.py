@@ -110,8 +110,8 @@ class CommentSerializer(serializers.ModelSerializer):
 
 class PostWithCommentsSerializer(serializers.ModelSerializer):
     comments = CommentSerializer(many=True, read_only=True)
-    image = serializers.ImageField(source='image.url', read_only=True)
-    text_file = serializers.FileField(source='text_file.url', read_only=True)
+    image = serializers.ImageField(read_only=True)
+    text_file = serializers.FileField(read_only=True)
     class Meta:
         model = PostsModel
         fields = ['id', 'text', 'username', 'email', 'comments', 'image', 'text_file', 'created_at']

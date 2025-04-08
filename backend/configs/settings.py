@@ -34,6 +34,9 @@ AUTH_USER_MODEL = 'users.UserModel'
 # Application definition
 
 INSTALLED_APPS = [
+    'daphne',
+    'channels',
+    'djangochannelsrestframework',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -83,6 +86,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'configs.wsgi.application'
+ASGI_APPLICATION = 'configs.asgi.application'
 
 
 # Database
@@ -99,6 +103,14 @@ DATABASES = {
     }
 }
 
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],
+        },
+    },
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
