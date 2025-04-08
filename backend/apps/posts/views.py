@@ -81,4 +81,5 @@ class CreateCommentAPIView(GenericAPIView):
 class PostWithCommentsView(ListAPIView):
     queryset = PostsModel.objects.all()
     serializer_class = PostWithCommentsSerializer
+    pagination_class = PagePagination
     permission_classes = (AllowAny,)
