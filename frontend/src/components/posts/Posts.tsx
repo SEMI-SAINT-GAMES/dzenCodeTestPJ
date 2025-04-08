@@ -35,7 +35,7 @@ const Posts = () => {
             setPagesCount(postsPage.total_pages)
     }, [postsPage]);
 
-    const handleChangePage = (event: ChangeEvent<unknown>, page:number) => {
+    const handleChangePage = (_: ChangeEvent<unknown>, page:number) => {
         setQuery(prev => {prev.set('page', (page).toString())
             return prev
         })

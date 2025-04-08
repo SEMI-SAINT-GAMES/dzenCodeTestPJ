@@ -1,3 +1,4 @@
 backend/.idea
 venv
 backend/.env*
+backend/.env.example*
