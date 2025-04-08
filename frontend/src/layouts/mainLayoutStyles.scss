@@ -1,0 +1,25 @@
+html, body {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  //overflow-y: hidden;
+}
+.Main-layout {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  min-height: 100vh;
+  position: relative;
+  height: auto;
+  background-color: #F2F0F8;
+
+  width: 100vw;
+
+  .Content-container {
+      padding-top: 140px;
+      padding-bottom: 650px;
+    }
+  }
+
+

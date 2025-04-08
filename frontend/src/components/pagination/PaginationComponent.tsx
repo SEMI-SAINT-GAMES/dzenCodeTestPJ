@@ -1,4 +1,4 @@
-import React, {ChangeEvent, FC, PropsWithChildren} from 'react';
+import {ChangeEvent, FC, PropsWithChildren} from 'react';
 import {Pagination} from "@mui/material";
 interface IProps extends PropsWithChildren{
     pagesCount: number;
