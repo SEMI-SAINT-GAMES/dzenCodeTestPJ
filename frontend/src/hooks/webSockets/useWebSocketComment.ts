@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import {IComment, IPost} from "../../interfaces/postsInterfaces/postsInterfaces.ts";
+import {IPost} from "../../interfaces/postsInterfaces/postsInterfaces.ts";
 import {socketUrls} from "../../constants";
 
 const useWebSocketComment = (setPosts: React.Dispatch<React.SetStateAction<IPost[]>>) => {
@@ -17,8 +17,8 @@ const useWebSocketComment = (setPosts: React.Dispatch<React.SetStateAction<IPost
                         ...prevPosts[postIndex],
                         comments: [
                             ...(prevPosts[postIndex].comments ?? []).filter(
-                                (existingComment: IComment) => !newComment.data.comments.some(
-                                    (newCmt: IComment) => newCmt.id === existingComment.id
+                                (existingComment: IPost) => !newComment.data.comments.some(
+                                    (newCmt: IPost) => newCmt.id === existingComment.id
                                 )
                             ),
                             ...newComment.data.comments,

@@ -47,16 +47,16 @@ class PostCreateSerializer(serializers.ModelSerializer):
         return value
 
 class CommentCreateSerializer(serializers.ModelSerializer):
-    replies = serializers.SerializerMethodField()
+    comments = serializers.SerializerMethodField()
 
     class Meta:
         model = CommentsModel
-        fields = ['id', 'text', 'post', 'parent', 'username', 'email', 'user', 'is_active', 'created_at', 'replies', 'image', 'text_file']
-        read_only_fields = ['id', 'user', 'created_at', 'replies']
+        fields = ['id', 'text', 'parent', 'username', 'email', 'user', 'is_active', 'created_at', 'comments', 'image', 'text_file']
+        read_only_fields = ['id', 'user', 'created_at', 'comments']
 
-    def get_replies(self, obj):
-        replies = obj.replies.filter(is_active=True)
-        return CommentCreateSerializer(replies, many=True).data
+    def get_comments(self, obj):
+        comments = obj.comments.filter(is_active=True)
+        return CommentCreateSerializer(comments, many=True).data
 
     def validate_text(self, value):
         clean_text = clean_html(value)
@@ -95,11 +95,11 @@ class RecursiveCommentSerializer(serializers.Serializer):
 
 
 class CommentSerializer(serializers.ModelSerializer):
-    replies = RecursiveCommentSerializer(many=True, read_only=True)
-
+    comments = RecursiveCommentSerializer(many=True, read_only=True)
+    post = serializers.PrimaryKeyRelatedField(read_only=True)
     class Meta:
         model = CommentsModel
-        fields = ['id', 'text', 'username', 'email', 'replies', 'parent']
+        fields = ['id', 'text', 'username', 'email', 'post', 'comments', 'parent']
 
 class PostWithCommentsSerializer(serializers.ModelSerializer):
     comments = CommentSerializer(many=True, read_only=True)

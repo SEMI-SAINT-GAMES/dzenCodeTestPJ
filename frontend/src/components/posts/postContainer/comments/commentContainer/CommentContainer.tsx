@@ -1,9 +1,9 @@
 import {FC, PropsWithChildren} from "react";
-import {IComment} from "../../../../../interfaces/postsInterfaces/postsInterfaces.ts";
+import {IPost} from "../../../../../interfaces/postsInterfaces/postsInterfaces.ts";
 import Comment from "./comment/Comment.tsx";
 
 interface IProps extends PropsWithChildren{
-    comment: IComment;
+    comment: IPost;
 }
 const CommentContainer:FC<IProps> = ({comment}) => {
     return (
