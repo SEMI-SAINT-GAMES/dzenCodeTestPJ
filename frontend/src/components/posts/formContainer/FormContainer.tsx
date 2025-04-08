@@ -8,7 +8,7 @@ import ReCAPTCHA from "react-google-recaptcha";
 import './postFormStyles.scss'
 
 
-const PostForm = () => {
+const FormContainer = () => {
     const { register, handleSubmit, reset, setValue } = useForm<IPost>();
     const [loading, setLoading] = useState(false);
     const recaptchaRef = useRef<ReCAPTCHA>(null);
@@ -127,4 +127,4 @@ const PostForm = () => {
     );
 };
 
-export default PostForm;
+export default FormContainer;

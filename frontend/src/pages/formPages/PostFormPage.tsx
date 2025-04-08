@@ -1,9 +1,9 @@
-import PostForm from "../../components/posts/form/PostForm.tsx";
+import FormContainer from "../../components/posts/formContainer/FormContainer.tsx";
 
 const PostFormPage = () => {
     return (
         <div className='Post-form-page'>
-            <PostForm/>
+            <FormContainer/>
         </div>
     );
 };

@@ -1,4 +1,4 @@
-import {FC, PropsWithChildren} from "react";
+import {FC, PropsWithChildren, useEffect, useState} from "react";
 import {IPost} from "../../../interfaces/postsInterfaces/postsInterfaces.ts";
 import Comments from "./comments/Comments.tsx";
 import Post from "./post/Post.tsx";
@@ -8,12 +8,18 @@ interface IProps extends PropsWithChildren{
 }
 
 const PostContainer:FC<IProps> = ({post}) => {
+    const [commentForm, setCommentForm] = useState(false)
+    useEffect(() => {
 
+    }, [commentForm]);
     return (
         <>
          <div className="Post-container">
              <Post  post={post}/>
-             {post?.comments?.length > 0 && <Comments comments={post.comments}/>}
+             <button className='To-omment' onClick={() => (setCommentForm(prevState => !prevState))}>
+                 {commentForm ? "Hide formContainer" : "Comment"}
+             </button>
+             {<Comments comments={post?.comments}/>}
 
          </div>
         </>

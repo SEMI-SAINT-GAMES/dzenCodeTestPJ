@@ -107,38 +107,38 @@
 
 
 
-//.Comments {
-//  margin-top: 20px;
-//  padding-left: 20px;
-//  border-left: 2px solid #ddd;
-//  display: flex;
-//  flex-direction: column;
-//  gap: 12px;
-//}
-//
-//.Comment-container {
-//  margin: 0;
-//}
-//
-//.Comment {
-//  background-color: #f2f6fc;
-//  border: 1px solid #c3dafe;
-//  padding: 10px 14px;
-//  padding-right: 0;
-//  border-radius: 10px;
-//  font-size: 14px;
-//  color: #2c3e50;
-//  position: relative;
-//
-//  &::before {
-//    content: "💬";
-//    position: absolute;
-//    left: -22px;
-//    top: 8px;
-//    font-size: 14px;
-//  }
-//
-//  .Comment-container {
-//    margin: 16px 0;
-//  }
-//}
+.Comments {
+  margin-top: 20px;
+  padding-left: 20px;
+  border-left: 2px solid #ddd;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.Comment-container {
+  margin: 0;
+}
+
+.Comment {
+  background-color: #f2f6fc;
+  border: 1px solid #c3dafe;
+  padding: 10px 14px;
+  padding-right: 0;
+  border-radius: 10px;
+  font-size: 14px;
+  color: #2c3e50;
+  position: relative;
+
+  &::before {
+    content: "💬";
+    position: absolute;
+    left: -22px;
+    top: 8px;
+    font-size: 14px;
+  }
+
+  .Comment-container {
+    margin: 16px 0;
+  }
+}

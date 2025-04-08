@@ -4,6 +4,7 @@ export interface IPost{
     username:string
     email:string
     comments?:IComment[]
+    replies?: IComment[]
     image?: File | string;
     text_file?: File | string;
     created_at: string;

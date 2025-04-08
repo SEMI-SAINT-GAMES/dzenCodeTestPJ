@@ -4,7 +4,7 @@ import CommentContainer from "./commentContainer/CommentContainer.tsx";
 import './commentsStyles.scss'
 
 interface IProps extends PropsWithChildren{
-    comments:IComment[];
+    comments:IComment[] | undefined;
 }
 const Comments:FC<IProps> = ({comments}) => {
     return (

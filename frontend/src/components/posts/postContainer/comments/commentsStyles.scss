@@ -1,60 +1,77 @@
 .Comments {
   .Comment-container{
     border: 1px solid green;
-    background-color: antiquewhite;
+    background-color: rgba(255, 255, 255, 0.23);
     margin: 10px 20px;
     padding: 5px;
   }
 }
 .Comment {
-  background-color: #f9f9f9;
-  padding: 15px;
-  border-radius: 8px;
-  margin-bottom: 15px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  border-bottom: 1px solid #bc1010;
+}
+
+.Comment-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.Comment-replies {
+  margin-left: 20px;
+  margin-top: 10px;
+}
+
+.Comment-form {
+  max-width: 500px; // Зменшити максимальну ширину
+  margin: 10px auto; // Центрувати форму
+  padding: 10px;
+  background-color: #f7f7f7; // Фон для форми
+  border-radius: 8px; // Круглі кути
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1); // Легкий тінь
+}
+
+.Comment-form input,
+.Comment-form textarea {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+  border: 1px solid #ddd;
   font-size: 14px;
+}
 
-  &-header {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 10px;
+.Comment-form textarea {
+  height: 100px;
+  resize: none;
+}
 
-    h5 {
-      font-size: 16px;
-      font-weight: bold;
-      margin: 0;
-    }
+.Comment-form button {
+  margin-top: 10px;
+  padding: 8px 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
 
-    span {
-      font-size: 12px;
-      color: #777;
-    }
-  }
+.Comment-form button:hover {
+  background-color: #0056b3;
+}
 
-  &-file {
-    margin-top: 10px;
-    a {
-      color: #007bff;
-      text-decoration: none;
-      &:hover {
-        text-decoration: underline;
-      }
-    }
-  }
+.file-input-container {
+  margin-bottom: 10px;
+}
 
-  &-image {
-    margin-top: 10px;
-    img {
-      border-radius: 8px;
-      width: 100%;
-      height: auto;
-      max-width: 320px;
-    }
-  }
+.custom-file-label {
+  display: inline-block;
+  padding: 5px;
+  background-color: #f0f0f0;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
 
-  &-replies {
-    margin-top: 20px;
-    padding-left: 20px;
-    border-left: 2px solid #ccc;
-  }
+.custom-file-label:hover {
+  background-color: #ddd;
 }
