@@ -10,7 +10,8 @@ const Comment:FC<IProps> = ({comment}) => {
     return (
         <div className='Comment'>
             {comment?.text}
-            {comment.replies.length > 0 && comment.replies.map((comment => <CommentContainer key={comment.id} comment={comment}/>))}
+            {comment?.id}
+            {comment?.replies?.length > 0 && comment?.replies?.map((comment => <CommentContainer key={comment.id} comment={comment}/>))}
         </div>
     );
 };

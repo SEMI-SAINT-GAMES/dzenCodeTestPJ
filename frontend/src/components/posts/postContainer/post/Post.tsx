@@ -7,7 +7,10 @@ interface IProps extends PropsWithChildren{
 }
 const Post:FC<IProps> = ({post}) => {
     return (
-        <div className='Post' dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(post?.text || "")}}/>
+        <div className='Post'>
+            <h4>{post.id}</h4>
+            <p dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(post?.text || "")}}/>
+        </div>
     );
 };
 

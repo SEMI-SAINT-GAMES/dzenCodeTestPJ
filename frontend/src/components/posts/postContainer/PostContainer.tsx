@@ -8,11 +8,13 @@ interface IProps extends PropsWithChildren{
 }
 
 const PostContainer:FC<IProps> = ({post}) => {
+
     return (
         <>
          <div className="Post-container">
-             <Post post={post}/>
-             <Comments comments={post.comments}/>
+             <Post  post={post}/>
+             {post?.comments?.length > 0 && <Comments comments={post.comments}/>}
+
          </div>
         </>
     );

@@ -1,57 +1,50 @@
-import {ChangeEvent, useEffect, useState} from "react";
-import {IPost} from "../../interfaces/postsInterfaces/postsInterfaces.ts";
-import {IPage} from "../../interfaces/pageInterface.ts";
-import postsService from "../../services/apiServices/posts/postsService.ts";
-import {useSearchParams} from "react-router-dom";
+import { ChangeEvent, useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import PostContainer from "./postContainer/PostContainer.tsx";
-import './postsStyles.scss'
+import './postsStyles.scss';
 import PaginationComponent from "../pagination/PaginationComponent.tsx";
+import useWebSocketComment from "../../hooks/webSockets/useWebSocketComment.ts";
+import useWebSocketPost from "../../hooks/webSockets/useWebSocketPost.ts";
+import useFetchPosts from "../../hooks/fetch/useFetchPosts.ts";
+import NoData from "../noDataComponent/NoData.tsx";
 
 const Posts = () => {
-    const [postsPage, setPostsPage] = useState<IPage<IPost> | null>(null)
-    const [query, setQuery] = useSearchParams({page:'1'})
-    const [pagesCount, setPagesCount] = useState(5)
+    const [query, setQuery] = useSearchParams({ page: '1' });
+    const { postsPage, posts, setPosts } = useFetchPosts(query);
+    useWebSocketPost(setPosts, +(query.get('page') || 0));
+    useWebSocketComment(setPosts);
 
-    const FetchData = async () => {
-        try{
-            const response = await postsService.getWithComments(+(query.get('page') || 1));
-            if (response.data.results && Array.isArray(response.data.results)) {
-                setPostsPage(response.data);
-            } else {
-                setPostsPage(null);
-                console.log("No posts found");
-            }
-        } catch (e) {
-            console.error(e);
-        }
-    }
-    useEffect(() => {
-        FetchData();
-        console.log("FetchData");
+    const [pagesCount, setPagesCount] = useState(5);
 
-    }, [query.get('page')]);
     useEffect(() => {
-        if (postsPage !== null)
-            setPagesCount(postsPage.total_pages)
+        if (postsPage) setPagesCount(postsPage.total_pages);
     }, [postsPage]);
 
-    const handleChangePage = (_: ChangeEvent<unknown>, page:number) => {
-        setQuery(prev => {prev.set('page', (page).toString())
-            return prev
-        })
+    const handleChangePage = (_: ChangeEvent<unknown>, page: number) => {
+        setQuery((prev) => {
+            prev.set('page', page.toString());
+            return prev;
+        });
         window.scrollTo({
             top: 0,
             left: 0,
-            behavior: 'smooth'
+            behavior: 'smooth',
         });
-    }
+    };
+
     return (
-        <>
-            <div className="Posts">
-                {postsPage?.results.map(post =><PostContainer key={post.id} post={post} />)}
-                <PaginationComponent pagesCount={pagesCount} page={+(query.get('page') || 1)} handleChangePage={handleChangePage}/>
-            </div>
-        </>
+        <div className="Posts">
+            {posts?.length ? (
+                posts.map(post => <PostContainer key={post.id} post={post} />)
+            ) : (
+                <NoData text={'Постів ще немає'}/>
+            )}
+            <PaginationComponent
+                pagesCount={pagesCount}
+                page={+(query.get('page') || 1)}
+                handleChangePage={handleChangePage}
+            />
+        </div>
     );
 };
 

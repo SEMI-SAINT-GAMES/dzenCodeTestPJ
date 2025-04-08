@@ -9,7 +9,7 @@ interface IProps extends PropsWithChildren{
 const Comments:FC<IProps> = ({comments}) => {
     return (
         <div className='Comments'>
-            {comments.map(comment => <CommentContainer key={comment.id} comment={comment}/>)}
+            {comments?.map(comment => <CommentContainer key={comment.id} comment={comment}/>)}
         </div>
     );
 };

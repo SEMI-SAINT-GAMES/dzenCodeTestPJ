@@ -10,5 +10,5 @@ export interface IComment{
     text:string
     username:string
     email:string
-    replies:IComment[]
+    replies: IComment[]
 }
