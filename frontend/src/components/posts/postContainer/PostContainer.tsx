@@ -11,18 +11,25 @@ interface IProps extends PropsWithChildren{
 
 const PostContainer:FC<IProps> = ({post}) => {
     const [commentForm, setCommentForm] = useState(false)
+    const [isComments, setIsComments] = useState(false)
+    useEffect(() => {
+    }, [commentForm]);
     useEffect(() => {
 
-    }, [commentForm]);
+    }, [isComments]);
     return (
         <>
          <div className="Post-container">
              <Post  post={post}/>
-             <button className='To-omment' onClick={() => (setCommentForm(prevState => !prevState))}>
-                 {commentForm ? "Hide formContainer" : "Comment"}
+             <button className='To-comment' onClick={() => (setCommentForm(prev => !prev))}>
+                 {commentForm ? "Hide form" : "Comment"}
+             </button>
+             <button className='Show-comments' onClick={() => (setIsComments(prev => !prev))}>
+                 {isComments ? "Hide comments" : "Show comments"}
              </button>
              {commentForm && <PostForm service={postsService.createComment} setLoading={setCommentForm} post_id={post.id} parent={'main'}/> }
-             {<Comments comments={post?.comments}/>}
+
+             {isComments && <Comments comments={post?.comments}/>}
 
          </div>
         </>

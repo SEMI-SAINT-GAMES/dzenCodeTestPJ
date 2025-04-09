@@ -89,8 +89,12 @@ const PostForm:FC<IProps> = ({setLoading, service, post_id, parent}) => {
             <form className="Post-form" onSubmit={handleSubmit(createPost)}>
                 <input type="email" placeholder="E-mail" {...register("email")} required />
                 <input type="text" placeholder="Username" {...register("username")} required />
-                <input type="text" placeholder="Text..." {...register("text")} required />
-
+                <textarea
+                    placeholder="Text..."
+                    {...register("text")}
+                    required
+                    rows={4}
+                />
                 <div className="file-input-container">
                     <label htmlFor="image" className="custom-file-label">
                         {photoName || "Choose Photo"}
