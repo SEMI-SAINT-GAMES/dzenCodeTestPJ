@@ -2,9 +2,14 @@ const baseURL = import.meta.env.VITE_APP_API;
 const baseSocketURL = import.meta.env.VITE_SOCKET_URL;
 const posts = {
     base: '/posts',
-    comment: '/comments',
-    postsWithComments: '/post_with_comments',
+    allPosts: '/all_posts',
     createPost: '/create_post',
+    comment: '/comments',
+    createComment: '/create_comment',
+    getMainComments: '/get_main_comments',
+    getChildComments: '/get_child_comments',
+    postsWithComments: '/post_with_comments',
+
 }
 const auth = {
     base: '/auth',
@@ -25,9 +30,11 @@ const socketUrls = {
 
 const urls = {
     posts:{
-        getWithComments: posts.base + posts.postsWithComments,
+        getPosts: posts.base + posts.allPosts,
         createPost: posts.base + posts.createPost,
-        createComment: posts.base + posts.comment,
+        createComment: posts.base + posts.createComment,
+        getMainComments: posts.base + posts.getMainComments,
+        getChildComments: posts.base + posts.getChildComments,
     },
     auth:{
         login: auth.base + auth.login,

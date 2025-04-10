@@ -1,16 +1,13 @@
-import json
-
-from channels.layers import get_channel_layer
 from rest_framework import status
 from rest_framework.generics import GenericAPIView, ListAPIView, RetrieveAPIView
 from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
-
 from apps.posts.consumers import PostConsumer, CommentConsumer
 from apps.posts.models import PostsModel, CommentsModel
-from apps.posts.serializers import PostCreateSerializer, CommentCreateSerializer, PostWithCommentsSerializer
-from core.pagination import PagePagination
+from apps.posts.serializers import PostCreateSerializer, CommentCreateSerializer, PostWithCommentsSerializer, \
+    CommentRepresentationSerializer
+from core.pagination import PostsPagination, CommentsPagination
 
 
 # Create your views here.
@@ -42,7 +39,7 @@ class GetPostsAPIView(ListAPIView):
     queryset = PostsModel.objects.filter(is_active=True).order_by('-created_at')
     serializer_class = PostCreateSerializer
     permission_classes = (AllowAny,)
-    pagination_class = PagePagination
+    pagination_class = PostsPagination
 
 
 class CreateCommentAPIView(GenericAPIView):
@@ -70,9 +67,26 @@ class CreateCommentAPIView(GenericAPIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+class GetMainCommentsAPIView(ListAPIView):
+    serializer_class = CommentRepresentationSerializer
+    permission_classes = (AllowAny,)
+    pagination_class = CommentsPagination
+    def get_queryset(self):
+        post_id = self.kwargs.get('post_id')
+        return CommentsModel.objects.filter(is_active=True, post_id=post_id, parent=None).order_by('-created_at')
+
+class GetChildCommentsAPIView(ListAPIView):
+    serializer_class = CommentRepresentationSerializer
+    permission_classes = (AllowAny,)
+    pagination_class = CommentsPagination
+    def get_queryset(self):
+        parent_id = self.kwargs.get('parent_id')
+        return CommentsModel.objects.filter(is_active=True, parent_id=parent_id).order_by('-created_at')
+
+
 
 class PostWithCommentsAPIView(ListAPIView):
     queryset = PostsModel.objects.all().order_by('-created_at')
     serializer_class = PostWithCommentsSerializer
-    pagination_class = PagePagination
+    pagination_class = PostsPagination
     permission_classes = (AllowAny,)

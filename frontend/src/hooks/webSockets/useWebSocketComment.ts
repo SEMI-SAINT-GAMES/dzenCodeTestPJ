@@ -1,36 +1,17 @@
-import { useEffect } from 'react';
-import {IPost} from "../../interfaces/postsInterfaces/postsInterfaces.ts";
+import {useEffect} from 'react';
 import {socketUrls} from "../../constants";
+import {IComment} from "../../interfaces/postsInterfaces/postsInterfaces.ts";
 
-const useWebSocketComment = (setPosts: React.Dispatch<React.SetStateAction<IPost[]>>) => {
+const useWebSocketComment= (setComments: React.Dispatch<React.SetStateAction<IComment[]>>, page: number) => {
     useEffect(() => {
         const commentSocket = new WebSocket(socketUrls.comments);
         commentSocket.onopen = () => console.log('WebSocket connected for comments');
         commentSocket.onmessage = (event) => {
-            const newComment = JSON.parse(event.data);
-            setPosts((prevPosts) => {
-                const postId = newComment.data.id;
-                const postIndex = prevPosts.findIndex((post) => post.id === postId);
+            if (page === 1){
+                const newComment = JSON.parse(event.data);
+                setComments((prevComments) => [newComment.data, ...prevComments]);
+            }
 
-                if (postIndex !== -1) {
-                    const updatedPost = {
-                        ...prevPosts[postIndex],
-                        comments: [
-                            ...(prevPosts[postIndex].comments ?? []).filter(
-                                (existingComment: IPost) => !newComment.data.comments.some(
-                                    (newCmt: IPost) => newCmt.id === existingComment.id
-                                )
-                            ),
-                            ...newComment.data.comments,
-                        ],
-                    };
-
-                    const updatedPosts = [...prevPosts];
-                    updatedPosts[postIndex] = updatedPost;
-                    return updatedPosts;
-                }
-                return prevPosts;
-            });
         };
         commentSocket.onerror = (error) => console.log('WebSocket error for comments:', error);
         commentSocket.onclose = () => console.log('WebSocket connection closed for comments');
@@ -38,7 +19,10 @@ const useWebSocketComment = (setPosts: React.Dispatch<React.SetStateAction<IPost
         return () => {
             commentSocket.close();
         };
-    }, [setPosts]);
+    }, [setComments]);
+    useEffect(() => {
+        console.log(page, 'page');
+    }, [page]);
 };
 
 export default useWebSocketComment;

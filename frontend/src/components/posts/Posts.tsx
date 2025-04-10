@@ -3,16 +3,17 @@ import { useSearchParams } from "react-router-dom";
 import PostContainer from "./postContainer/PostContainer.tsx";
 import './postsStyles.scss';
 import PaginationComponent from "../pagination/PaginationComponent.tsx";
-import useWebSocketComment from "../../hooks/webSockets/useWebSocketComment.ts";
 import useWebSocketPost from "../../hooks/webSockets/useWebSocketPost.ts";
-import useFetchPosts from "../../hooks/fetch/useFetchPosts.ts";
 import NoData from "../noDataComponent/NoData.tsx";
+import useFetchData from "../../hooks/fetch/useFetchData.ts";
+import {IPost} from "../../interfaces/postsInterfaces/postsInterfaces.ts";
+import postsService from "../../services/apiServices/posts/postsService.ts";
 
 const Posts = () => {
     const [query, setQuery] = useSearchParams({ page: '1' });
-    const { postsPage, posts, setPosts } = useFetchPosts(query);
+    const { items: posts, pageData: postsPage, setItems: setPosts } = useFetchData<IPost>(+(query.get('page') || 1), postsService.getAll);
     useWebSocketPost(setPosts, +(query.get('page') || 0));
-    useWebSocketComment(setPosts);
+
 
     const [pagesCount, setPagesCount] = useState(5);
 

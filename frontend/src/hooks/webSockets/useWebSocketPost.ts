@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import {useEffect} from 'react';
 import {socketUrls} from "../../constants";
 import {IPost} from "../../interfaces/postsInterfaces/postsInterfaces.ts";
 

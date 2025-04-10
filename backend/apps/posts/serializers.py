@@ -1,52 +1,19 @@
-import os
-from io import BytesIO
-from django.core.files.uploadedfile import InMemoryUploadedFile
 from rest_framework import serializers
-from rest_framework.exceptions import ValidationError
 from apps.posts.models import PostsModel, CommentsModel
-from core.helpers.clean_html import clean_html
-from PIL import Image
+from core.mixins.serializers_mixin import FileValidationMixin, CommentsCountMixin
 
-class PostCreateSerializer(serializers.ModelSerializer):
+
+class PostCreateSerializer(CommentsCountMixin, FileValidationMixin, serializers.ModelSerializer):
     image = serializers.ImageField(required=False)
     text_file = serializers.FileField(required=False)
+    comments_count = serializers.SerializerMethodField()
     class Meta:
         model = PostsModel
-        fields = ['id', 'text', 'username', 'email', 'user', 'created_at', 'image', 'text_file']
+        fields = ['id', 'text', 'username', 'email', 'created_at', 'image', 'text_file', 'comments_count']
         read_only_fields = ['id', 'user', 'created_at']
 
-    def validate_text(self, value):
-        clean_text = clean_html(value)
-        if not clean_text:
-            raise ValidationError("Incorrect text format")
-        return clean_text
 
-    def validate_image(self, value):
-        if value:
-            valid_formats = ['.jpg', '.jpeg', '.png', '.gif']
-            extension = os.path.splitext(value.name)[1].lower()
-            if extension not in valid_formats:
-                raise serializers.ValidationError("File not in JPG, GIF, PNG.")
-            image = Image.open(value)
-            width, height = image.size
-            if width > 320 or height > 240:
-                image.thumbnail((320, 240))
-                temp_file = BytesIO()
-                image.save(temp_file, format="JPEG" if extension == '.jpg' else extension[1:].upper())
-                temp_file.seek(0)
-                value = InMemoryUploadedFile(temp_file, None, value.name, f'image/{extension[1:]}', temp_file.tell(),None)
-        return value
-
-    def validate_text_file(self, value):
-        if value:
-            if not value.name.endswith('.txt'):
-                raise serializers.ValidationError("Only .txt files are allowed.")
-            if value.size > 102400:
-                raise serializers.ValidationError("File size exceeds 100KB.")
-
-        return value
-
-class CommentCreateSerializer(serializers.ModelSerializer):
+class CommentCreateSerializer(FileValidationMixin, serializers.ModelSerializer):
     comments = serializers.SerializerMethodField()
 
     class Meta:
@@ -58,35 +25,13 @@ class CommentCreateSerializer(serializers.ModelSerializer):
         comments = obj.comments.filter(is_active=True)
         return CommentCreateSerializer(comments, many=True).data
 
-    def validate_text(self, value):
-        clean_text = clean_html(value)
-        if not clean_text:
-            raise ValidationError("Incorrect text format")
-        return clean_text
-    def validate_image(self, value):
-        if value:
-            valid_formats = ['.jpg', '.jpeg', '.png', '.gif']
-            extension = os.path.splitext(value.name)[1].lower()
-            if extension not in valid_formats:
-                raise serializers.ValidationError("File not in JPG, GIF, PNG.")
-            image = Image.open(value)
-            width, height = image.size
-            if width > 320 or height > 240:
-                image.thumbnail((320, 240))
-                temp_file = BytesIO()
-                image.save(temp_file, format="JPEG" if extension == '.jpg' else extension[1:].upper())
-                temp_file.seek(0)
-                value = InMemoryUploadedFile(temp_file, None, value.name, f'image/{extension[1:]}', temp_file.tell(),None)
-        return value
+class CommentRepresentationSerializer(CommentsCountMixin, serializers.ModelSerializer):
+    comments_count = serializers.SerializerMethodField()
+    class Meta:
+        model = CommentsModel
+        fields = ['id', 'text', 'username', 'email', 'post', 'parent', 'created_at', 'image', 'text_file', 'comments_count']
 
-    def validate_text_file(self, value):
-        if value:
-            if not value.name.endswith('.txt'):
-                raise serializers.ValidationError("Only .txt files are allowed.")
-            if value.size > 102400:
-                raise serializers.ValidationError("File size exceeds 100KB.")
 
-        return value
 
 class RecursiveCommentSerializer(serializers.Serializer):
     def to_representation(self, value):
