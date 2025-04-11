@@ -62,7 +62,8 @@ class CreateCommentAPIView(GenericAPIView):
             if parent:
                 serializer.validated_data['parent'] = parent
             serializer.save(is_active=True)
-            data = PostWithCommentsSerializer(post).data
+            data = serializer.data#PostWithCommentsSerializer(post).data
+            print(data)
             CommentConsumer.send_new_comment(data)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

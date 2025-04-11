@@ -12,9 +12,9 @@ interface IProps extends PropsWithChildren{
 const Comments:FC<IProps> = ({postId}) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [allComments, setAllComments] = useState<IComment[]>([]);
-    const { items: comments, pageData, setItems: setComments} = useFetchData<IComment>(currentPage, (page) => postsService.getMainComments(page, postId));
+    const { items: comments, pageData} = useFetchData<IComment>(currentPage, (page) => postsService.getMainComments(page, postId));
 
-    useWebSocketComment(setComments, currentPage)
+    useWebSocketComment(setAllComments, currentPage)
     useEffect(() => {
         if (comments && comments.length > 0) {
             setAllComments(prevComments => [...prevComments, ...comments]);
