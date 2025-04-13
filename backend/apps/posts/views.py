@@ -1,3 +1,7 @@
+import random
+import string
+
+from django.core.cache import cache
 from rest_framework import status
 from rest_framework.generics import GenericAPIView, ListAPIView, RetrieveAPIView
 from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
@@ -7,6 +11,7 @@ from apps.posts.consumers import PostConsumer, CommentConsumer
 from apps.posts.models import PostsModel, CommentsModel
 from apps.posts.serializers import PostCreateSerializer, CommentCreateSerializer, PostWithCommentsSerializer, \
     CommentRepresentationSerializer
+from core.helpers.captcha_generator import generate_captcha_text, generate_captcha_image, validate_captcha
 from core.pagination import PostsPagination, CommentsPagination
 
 
@@ -15,8 +20,8 @@ class CreatePostAPIView(GenericAPIView):
     permission_classes = (AllowAny,)
     parser_classes = [MultiPartParser, FormParser, JSONParser]
     serializer_class = PostCreateSerializer
+    @validate_captcha
     def post(self, request):
-        print(request.data)
         serializer = self.get_serializer(data=request.data)
         if serializer.is_valid():
             if self.request.user.is_authenticated:
@@ -45,7 +50,10 @@ class GetPostsAPIView(ListAPIView):
 class CreateCommentAPIView(GenericAPIView):
     permission_classes = (AllowAny,)
     parser_classes = [MultiPartParser, FormParser]
+
+    @validate_captcha
     def post(self, request, post_id, parent_id=None):
+
         try:
             post = PostsModel.objects.get(id=post_id)
         except PostsModel.DoesNotExist:
@@ -91,3 +99,18 @@ class PostWithCommentsAPIView(ListAPIView):
     serializer_class = PostWithCommentsSerializer
     pagination_class = PostsPagination
     permission_classes = (AllowAny,)
+
+
+class CaptchaView(GenericAPIView):
+    permission_classes = (AllowAny,)
+    def get(self, request):
+        captcha_text = generate_captcha_text()
+        captcha_id = ''.join(random.choices(string.ascii_letters + string.digits, k=10))
+        image = generate_captcha_image(captcha_text)
+
+        cache.set(f"captcha_{captcha_id}", captcha_text, timeout=300)
+
+        return Response({
+            "captcha_id": captcha_id,
+            "captcha_image": f"data:image/png;base64,{image}"
+        })

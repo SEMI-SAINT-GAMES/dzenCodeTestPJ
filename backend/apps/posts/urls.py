@@ -1,5 +1,5 @@
 from core.helpers.file_download_service import download_file
-from .views import CreatePostAPIView, GetPostsAPIView, CreateCommentAPIView, PostWithCommentsAPIView, GetMainCommentsAPIView, GetChildCommentsAPIView
+from .views import CreatePostAPIView, GetPostsAPIView, CreateCommentAPIView, PostWithCommentsAPIView, GetMainCommentsAPIView, GetChildCommentsAPIView, CaptchaView
 from django.urls import path
 
 urlpatterns = [
@@ -11,5 +11,6 @@ urlpatterns = [
     path('get_child_comments/<int:parent_id>', GetChildCommentsAPIView.as_view(), name='get_child_comments'),
     path('post_with_comments', PostWithCommentsAPIView.as_view(), name='posts_get_post_with_comments'),
     path('download_file/<str:file_path>/', download_file, name='download_file'),
+    path('captcha', CaptchaView.as_view(), name='captcha')
 
 ]

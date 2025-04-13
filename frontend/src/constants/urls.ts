@@ -9,6 +9,7 @@ const posts = {
     getMainComments: '/get_main_comments',
     getChildComments: '/get_child_comments',
     postsWithComments: '/post_with_comments',
+    captcha: '/captcha',
 
 }
 const auth = {
@@ -35,6 +36,7 @@ const urls = {
         createComment: posts.base + posts.createComment,
         getMainComments: posts.base + posts.getMainComments,
         getChildComments: posts.base + posts.getChildComments,
+        getCaptcha: posts.base + posts.captcha,
     },
     auth:{
         login: auth.base + auth.login,

@@ -8,6 +8,8 @@ export interface IPost{
     text_file?: File | string;
     created_at: string;
     comments_count: number;
+    captcha_id?: string;
+    captcha_text?: string;
 }
 export interface IComment{
     id?:number
@@ -20,4 +22,12 @@ export interface IComment{
     text_file?: File | string;
     created_at: string;
     comments_count: number;
+    captcha_id?: string;
+    captcha_text?: string;
+
+}
+
+export interface ICaptcha{
+    captcha_id: string;
+    captcha_image: string;
 }
