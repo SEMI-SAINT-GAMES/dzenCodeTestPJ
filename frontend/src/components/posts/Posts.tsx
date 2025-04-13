@@ -8,10 +8,12 @@ import NoData from "../noDataComponent/NoData.tsx";
 import useFetchData from "../../hooks/fetch/useFetchData.ts";
 import {IPost} from "../../interfaces/postsInterfaces/postsInterfaces.ts";
 import postsService from "../../services/apiServices/posts/postsService.ts";
+import {orderingOptions} from "../../constants/selectOptions.ts";
 
 const Posts = () => {
     const [query, setQuery] = useSearchParams({ page: '1' });
-    const { items: posts, pageData: postsPage, setItems: setPosts } = useFetchData<IPost>(+(query.get('page') || 1), postsService.getAll);
+    const [ordering, setOrdering] = useState<string>("-created_at")
+    const { items: posts, pageData: postsPage, setItems: setPosts } = useFetchData<IPost>(+(query.get('page') || 1), postsService.getAll, ordering);
     useWebSocketPost(setPosts, +(query.get('page') || 0));
 
 
@@ -32,11 +34,21 @@ const Posts = () => {
             behavior: 'smooth',
         });
     };
-
+    const handleOrderingChange = async (event: React.ChangeEvent<HTMLSelectElement>) => {
+        setOrdering(event.target.value)
+    }
     return (
         <div className="Posts">
+            <select name="select" value={ordering} onChange={handleOrderingChange} required>
+                <option value="-created_at" selected>- Publish date</option>
+                {orderingOptions.map((option) => (
+                    <option key={option.id} value={option.option}>
+                        {option.text}
+                    </option>
+                ))}
+            </select>
             {posts?.length ? (
-                posts.map(post => <PostContainer key={post.id} post={post} />)
+                posts.map(post => <PostContainer key={post.id} post={post}/>)
             ) : (
                 <NoData text={'Постів ще немає'}/>
             )}

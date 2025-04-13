@@ -2,7 +2,7 @@ import random
 import string
 
 from django.core.cache import cache
-from rest_framework import status
+from rest_framework import status, filters
 from rest_framework.generics import GenericAPIView, ListAPIView, RetrieveAPIView
 from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 from rest_framework.permissions import AllowAny, IsAuthenticated
@@ -41,10 +41,14 @@ class CreatePostAPIView(GenericAPIView):
 
 
 class GetPostsAPIView(ListAPIView):
-    queryset = PostsModel.objects.filter(is_active=True).order_by('-created_at')
+    queryset = PostsModel.objects.filter(is_active=True)
     serializer_class = PostCreateSerializer
     permission_classes = (AllowAny,)
     pagination_class = PostsPagination
+    filter_backends = [filters.OrderingFilter]
+    ordering_fields = ['created_at', 'username', 'email']
+    ordering = ['-created_at']
+
 
 
 class CreateCommentAPIView(GenericAPIView):

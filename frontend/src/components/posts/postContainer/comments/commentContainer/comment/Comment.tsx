@@ -31,7 +31,7 @@ const Comment:FC<IProps> = ({ comment }) => {
             <div className="Comment-header">
                 <h5>{comment?.username}</h5>
                 <p>{comment?.id}</p>
-                <span>{new Date(comment?.created_at).toLocaleDateString()}</span>
+                <span>{new Date(comment?.created_at).toLocaleString()}</span>
             </div>
             <p dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(comment?.text || '')}}/>
             {comment?.text_file && (

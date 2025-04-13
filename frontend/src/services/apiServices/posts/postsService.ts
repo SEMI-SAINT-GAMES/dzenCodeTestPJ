@@ -4,7 +4,7 @@ import {IPage} from "../../../interfaces/pageInterface.ts";
 import {urls} from "../../../constants";
 
 const postsService = {
-    getAll: (page:number): IRes<IPage<IPost>> => apiService.get(`${urls.posts.getPosts}?page=${page}`),
+    getAll: (page:number, ordering?: string): IRes<IPage<IPost>> => apiService.get(`${urls.posts.getPosts}?page=${page}&ordering=${ordering}`),
     createPost: (post: FormData):IRes<IPost> => apiService.post(urls.posts.createPost, post),
     createComment: (post: FormData, post_id?: number, parent?: string):IRes<IComment> => apiService.post(`${urls.posts.createComment}/${post_id}/${parent}`, post),
     getMainComments: (page:number, post_id?: number):IRes<IPage<IComment>> => apiService.get(`${urls.posts.getMainComments}/${post_id}?page=${page}`),

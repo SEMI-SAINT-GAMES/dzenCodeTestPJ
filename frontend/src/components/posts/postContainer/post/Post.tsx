@@ -12,7 +12,7 @@ const Post:FC<IProps> = ({post}) => {
                 <h4>{post.id}</h4>
                 <span className="Post-info">{post.username}</span>
                 <span className="Post-info">{post.email}</span>
-                <span className="Post-info">{new Date(post.created_at).toLocaleDateString()}</span>
+                <span className="Post-info">{new Date(post.created_at).toLocaleString()}</span>
             </div>
             <div className="Post-content">
                 {post.image && (
@@ -33,7 +33,6 @@ const Post:FC<IProps> = ({post}) => {
                                 download
                                 className="Download-button"
                             >
-                                <img src="/path/to/download-icon.png" alt="Download Icon" className="Download-icon"/>
                                 Download file .txt
                             </a>
                         </div>

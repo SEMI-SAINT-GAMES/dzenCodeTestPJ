@@ -2,14 +2,18 @@ import { useState, useEffect } from "react";
 import {IPage} from "../../interfaces/pageInterface.ts";
 import {IRes} from "../../services";
 
-const useFetchData = <T>(page: number, fetchService: (page: number) => IRes<IPage<T>>) => {
+const useFetchData = <T>(page: number, fetchService: (page: number, ordering?: string) => IRes<IPage<T>>, ordering?:string) => {
     const [pageData, setPageData] = useState<IPage<T> | null>(null);
     const [items, setItems] = useState<T[]>([]);
 
     const fetchItems = async () => {
         try {
-
-            const response = await fetchService(page);
+            let response
+            if (ordering){
+                response = await fetchService(page, ordering);
+            }else {
+                response = await fetchService(page);
+            }
             if (response.data.results && Array.isArray(response.data.results)) {
                 setPageData(response.data);
                 setItems(response.data.results);
@@ -23,7 +27,7 @@ const useFetchData = <T>(page: number, fetchService: (page: number) => IRes<IPag
 
     useEffect(() => {
         fetchItems();
-    }, [page]);
+    }, [page, ordering]);
 
     return { pageData, items, setItems };
 };
