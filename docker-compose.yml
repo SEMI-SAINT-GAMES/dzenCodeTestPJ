@@ -11,6 +11,8 @@ services:
       MYSQL_ROOT_PASSWORD: rootpass
     volumes:
       - mysql-data:/var/lib/mysql
+    networks:
+      - backend-network
 
   backend:
     build:
@@ -19,21 +21,34 @@ services:
     container_name: django-backend
     ports:
       - "8000:8000"
+      - "8001:8001"
     volumes:
       - ./backend:/app
     env_file:
       - backend/.env
     depends_on:
       - db
+      - redis
     command: >
       sh -c "
         echo 'Waiting for MySQL...' &&
-        until nc -z db 3306; do sleep 1; done &&
-        echo 'MySQL started!' &&
-        python /app/manage.py migrate &&
-        gunicorn configs.wsgi:application --bind 0.0.0.0:8000
+            until nc -z db 3306; do sleep 1; done &&
+            echo 'MySQL started!' &&
+            echo 'Waiting for Redis...' &&
+            until nc -z redis 6379; do sleep 1; done &&
+            echo 'Redis started!' &&
+            python /app/manage.py migrate &&
+            gunicorn configs.wsgi:application --bind 0.0.0.0:8000
       "
-
+    networks:
+      - backend-network
+  redis:
+    image: redis:7
+    container_name: redis
+    ports:
+      - "6379:6379"
+    networks:
+      - backend-network
   frontend:
     build:
       context: .
@@ -45,6 +60,11 @@ services:
       - ./frontend:/app
     depends_on:
       - backend
+    networks:
+      - backend-network
 
 volumes:
   mysql-data:
+networks:
+  backend-network:
+    driver: bridge

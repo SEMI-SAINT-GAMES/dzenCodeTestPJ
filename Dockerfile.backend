@@ -5,11 +5,11 @@ ENV PYTHONUNBUFFERED 1
 
 WORKDIR /app
 
-RUN apt-get update && apt-get install -y default-libmysqlclient-dev gcc netcat-openbsd
+RUN apt-get update && apt-get install -y default-libmysqlclient-dev gcc netcat-openbsd redis-server
 
 COPY backend/ /app/
 
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
-CMD ["gunicorn", "configs.wsgi:application", "--bind", "0.0.0.0:8000"]
+CMD ["sh", "-c", "gunicorn configs.wsgi:application --bind 0.0.0.0:8000 & daphne configs.asgi:application --bind 0.0.0.0:8001"]

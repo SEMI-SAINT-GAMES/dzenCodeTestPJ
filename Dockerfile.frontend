@@ -10,4 +10,5 @@ RUN npm run build
 
 # Optional: serve static files (if no separate Nginx container)
 RUN npm install -g serve
+EXPOSE 3000
 CMD ["serve", "-s", "dist", "-l", "3000"]
